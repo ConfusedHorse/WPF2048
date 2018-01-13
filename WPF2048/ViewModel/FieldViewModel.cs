@@ -118,7 +118,7 @@ namespace WPF2048.ViewModel
                 var collidingElement = Elements.OrderByDescending(e => e.X).FirstOrDefault(e => e.Y == movingElement.Y && e.X < movingElement.X);
                 if (collidingElement != null)
                 {
-                    if (!collidingElement.Blocked && collidingElement.Value == movingElement.Value)
+                    if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
                     {
                         movingElement.Index = collidingElement.Index;
                         movingElement.Value *= 2;
@@ -148,7 +148,7 @@ namespace WPF2048.ViewModel
                 var collidingElement = Elements.OrderBy(e => e.X).FirstOrDefault(e => e.Y == movingElement.Y && e.X > movingElement.X);
                 if (collidingElement != null)
                 {
-                    if (!collidingElement.Blocked && collidingElement.Value == movingElement.Value)
+                    if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
                     {
                         movingElement.Index = collidingElement.Index;
                         movingElement.Value *= 2;
@@ -178,7 +178,7 @@ namespace WPF2048.ViewModel
                 var collidingElement = Elements.OrderBy(e => e.Y).FirstOrDefault(e => e.X == movingElement.X && e.Y > movingElement.Y);
                 if (collidingElement != null)
                 {
-                    if (!collidingElement.Blocked && collidingElement.Value == movingElement.Value)
+                    if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
                     {
                         movingElement.Index = collidingElement.Index;
                         movingElement.Value *= 2;
@@ -208,7 +208,7 @@ namespace WPF2048.ViewModel
                 var collidingElement = Elements.OrderByDescending(e => e.Y).FirstOrDefault(e => e.X == movingElement.X && e.Y < movingElement.Y);
                 if (collidingElement != null)
                 {
-                    if (!collidingElement.Blocked && collidingElement.Value == movingElement.Value)
+                    if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
                     {
                         movingElement.Index = collidingElement.Index;
                         movingElement.Value *= 2;
