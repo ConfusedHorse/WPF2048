@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="WPF2048.View.ElementControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
+             xmlns:assets="clr-namespace:WPF2048.Assets"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300" 
+             d:DataContext="{d:DesignInstance viewModel:ElementViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <assets:ValueBackgroundConverter x:Key="ValueBackgroundConverter"/>
+            <assets:ValueForegroundConverter x:Key="ValueForegroundConverter"/>
+
+            <Style x:Key="SpielfeldTextBlockStyle"
+                   TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border BorderBrush="Black"
+            BorderThickness="1"
+            Height="{x:Static viewModel:Values.ElementSize}" 
+            Width="{x:Static viewModel:Values.ElementSize}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Background="{Binding Value, Converter={StaticResource ValueBackgroundConverter}}">
+        <TextBlock Text="{Binding Value}"
+                   Foreground="{Binding Value, Converter={StaticResource ValueForegroundConverter}}"
+                   FontSize="{Binding FontSize}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock"
+                       BasedOn="{StaticResource SpielfeldTextBlockStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Value}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </Border>
+</UserControl>
