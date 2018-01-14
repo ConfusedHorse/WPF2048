@@ -9,7 +9,7 @@ namespace WPF2048.Assets
         {
             if (exp <= 1) return Brushes.Black;
             var to = BlurryControls.Helpers.ColorHelper.InvertedSystemWindowGlassColor;
-            var background = Colors.Black.Merge(to, (exp - 1) / Values.ElementCount);
+            var background = Colors.Black.Merge(to, (exp - 1) / (Values.WinningPower + 1));
             return new SolidColorBrush(background);
         }
 

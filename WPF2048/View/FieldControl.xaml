@@ -9,8 +9,9 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500"
              DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}">
-    <Border BorderBrush="Black"
-            BorderThickness="1">
+    <Border BorderBrush="{x:Static viewModel:Values.AccentColor}"
+            BorderThickness="1"
+            Margin="5">
         <Grid>
             <Grid x:Name="BackgroundPattern"/>
             <ItemsControl ItemsSource="{Binding Elements}"

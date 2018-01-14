@@ -6,8 +6,11 @@
                        xmlns:controls="clr-namespace:BlurryControls.Controls;assembly=BlurryControls"
                        xmlns:view="clr-namespace:WPF2048.View"
                        xmlns:internals="clr-namespace:BlurryControls.Internals;assembly=BlurryControls"
+                       xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
                        mc:Ignorable="d"
                        Title="WPF2048"
+                       BorderBrush="{x:Static viewModel:Values.AccentColor}"
+                       BorderThickness="2"
                        ResizeMode="NoResize"
                        SizeToContent="WidthAndHeight">
     <controls:BlurryWindow.AdditionalMenuBarButtons>

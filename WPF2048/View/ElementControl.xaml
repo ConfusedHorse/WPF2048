@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border BorderBrush="Black"
+    <Border BorderBrush="{x:Static viewModel:Values.AccentColor}"
             BorderThickness="1"
             Height="{x:Static viewModel:Values.ElementSize}" 
             Width="{x:Static viewModel:Values.ElementSize}"

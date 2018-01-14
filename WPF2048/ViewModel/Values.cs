@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 
 namespace WPF2048.ViewModel
 {
@@ -20,5 +21,6 @@ namespace WPF2048.ViewModel
         public static int ElementCount = ElementRoot * ElementRoot;
 
         public static Duration AnimationDuration = new Duration(TimeSpan.FromSeconds(0.3));
+        public static SolidColorBrush AccentColor = Brushes.WhiteSmoke;
     }
 }
