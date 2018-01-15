@@ -1,9 +1,11 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using BlurryControls.DialogFactory;
 using BlurryControls.Internals;
 using WPF2048.Assets;
 using WPF2048.Module;
+using WPF2048.ViewModel;
 
 namespace WPF2048.View
 {
@@ -45,9 +47,27 @@ namespace WPF2048.View
 
         private void ResetButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var result = BlurBehindMessageBox.Show(Properties.Resources.ResetBody, Properties.Resources.ResetHeader,
-                BlurryDialogButton.YesNo);
-            if (result == BlurryDialogResult.Yes) Singleton.FieldViewModel.ResetGame();
+            var customButtonCollection = new ButtonCollection();
+            foreach (var sizeOption in FieldViewModel.SizeOptions)
+            {
+                var optionButton = new Button
+                {
+                    Content = sizeOption,
+                    Width = 50d
+                };
+                optionButton.Click += OptionButtonOnClick;
+                customButtonCollection.Add(optionButton);
+            }
+            BlurBehindMessageBox.Show(this, Properties.Resources.ResetBody, Properties.Resources.ResetHeader,
+                customButtonCollection);
+        }
+
+        private void OptionButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (!(sender is Button optionButton)) return;
+            Singleton.FieldViewModel.ElementRoot = int.Parse(optionButton.Content.ToString());
+            Singleton.FieldViewModel.ResetGame();
+            FieldControl.CreateField();
         }
     }
 }

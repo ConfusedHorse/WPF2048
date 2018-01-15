@@ -8,8 +8,6 @@ namespace WPF2048.View
     /// </summary>
     public partial class FieldControl
     {
-        private FieldViewModel _instance;
-
         public FieldControl()
         {
             InitializeComponent();
@@ -19,9 +17,13 @@ namespace WPF2048.View
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (!(DataContext is FieldViewModel instance)) return;
-            _instance = instance;
+            CreateField();
+        }
 
+        internal void CreateField()
+        {
+            AdjustSize();
+            BackgroundPattern.Children.Clear();
             for (var e = 0; e < FieldViewModel.ElementCount; e++)
             {
                 var spielfeldElement = new ElementViewModel(e);
@@ -30,6 +32,14 @@ namespace WPF2048.View
                     Margin = spielfeldElement.Margin
                 });
             }
+        }
+
+        private void AdjustSize()
+        {
+            BackgroundPattern.Width = FieldViewModel.FieldSize;
+            BackgroundPattern.Height = FieldViewModel.FieldSize;
+            FieldBorder.Width = FieldViewModel.FieldSize;
+            FieldBorder.Height = FieldViewModel.FieldSize;
         }
     }
 }

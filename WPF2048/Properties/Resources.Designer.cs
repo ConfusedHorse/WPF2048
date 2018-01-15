@@ -90,7 +90,9 @@ namespace WPF2048.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to start a new game?.
+        ///   Looks up a localized string similar to Do you want to start a new game?
+        ///
+        ///Choose the size of the new game:.
         /// </summary>
         public static string ResetBody {
             get {
@@ -99,7 +101,7 @@ namespace WPF2048.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart?.
+        ///   Looks up a localized string similar to Restart!.
         /// </summary>
         public static string ResetHeader {
             get {

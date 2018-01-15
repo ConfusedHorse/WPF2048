@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using GalaSoft.MvvmLight;
+using WPF2048.Module;
 
 namespace WPF2048.ViewModel
 {
@@ -59,9 +60,9 @@ namespace WPF2048.ViewModel
             FieldViewModel.FieldSize - Left - FieldViewModel.ElementSize, FieldViewModel.FieldSize - Top - FieldViewModel.ElementSize);
 
         // ReSharper disable once PossibleLossOfFraction
-        public int X => _index / Properties.Settings.Default.ElementRoot;
+        public int X => _index / Singleton.CurrentRoot;
 
-        public int Y => _index % Properties.Settings.Default.ElementRoot;
+        public int Y => _index % Singleton.CurrentRoot;
 
         public double Top => X * FieldViewModel.ElementSize;
 

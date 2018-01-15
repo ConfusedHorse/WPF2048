@@ -12,6 +12,12 @@ namespace WPF2048.Module
 
         private Singleton() { }
 
+        #region GlobalRoot
+
+        public static int CurrentRoot { get; set; }
+
+        #endregion
+
         #region ViewModels
 
         public static FieldViewModel FieldViewModel =>

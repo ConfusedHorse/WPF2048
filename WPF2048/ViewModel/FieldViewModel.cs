@@ -25,6 +25,7 @@ namespace WPF2048.ViewModel
 
         public FieldViewModel()
         {
+            Singleton.CurrentRoot = Properties.Settings.Default.ElementRoot;
             ResetGame();
         }
 
@@ -94,9 +95,10 @@ namespace WPF2048.ViewModel
 
         public int ElementRoot
         {
-            get => Properties.Settings.Default.ElementRoot;
+            get => Singleton.CurrentRoot;
             set
             {
+                Singleton.CurrentRoot = value;
                 Properties.Settings.Default.ElementRoot = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(() => FieldSize);
@@ -116,9 +118,11 @@ namespace WPF2048.ViewModel
         public const int AddCount = 2;
         public const double ElementSize = 150;
 
-        public static double FieldSize => Properties.Settings.Default.ElementRoot * ElementSize;
-        public static int WinningPower = DefaultWinningPower + Properties.Settings.Default.ElementRoot - DefaultElementRoot;
-        public static int ElementCount = Properties.Settings.Default.ElementRoot * Properties.Settings.Default.ElementRoot;
+        public static int[] SizeOptions = {3, 4, 5, 6, 7,};
+
+        public static double FieldSize => Singleton.CurrentRoot * ElementSize;
+        public static int WinningPower => DefaultWinningPower + Singleton.CurrentRoot - DefaultElementRoot;
+        public static int ElementCount => Singleton.CurrentRoot * Singleton.CurrentRoot;
 
         public static Duration AnimationDuration = new Duration(TimeSpan.FromSeconds(0.3));
         public static SolidColorBrush AccentColor = Brushes.WhiteSmoke;
@@ -289,7 +293,7 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckWinCondition()
         {
-            if (!Elements.Any(e => e.Value >= Math.Pow(ElementRoot, FieldViewModel.WinningPower))) return;
+            if (!Elements.Any(e => e.Value >= Math.Pow(ElementRoot, WinningPower))) return;
 
             WinPossible = true;
             var result = BlurBehindMessageBox.Show(Properties.Resources.WinBody, Properties.Resources.WinHeader,
@@ -302,9 +306,9 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckDefeatCondition()
         {
-            if (Elements.Count < FieldViewModel.ElementCount) return;
+            if (Elements.Count < ElementCount) return;
 
-            if (Elements.Count < FieldViewModel.ElementCount ||
+            if (Elements.Count < ElementCount ||
                 Elements.Select(element => Elements.Where(e =>
                         e.Value == element.Value &&
                         (Math.Abs(e.X - element.X) == 1 && e.Y == element.Y ||
@@ -339,7 +343,7 @@ namespace WPF2048.ViewModel
         {
             Elements.Clear();
             Moves = 0;
-            Score = FieldViewModel.AddCount * FieldViewModel.StartValue;
+            Score = AddCount * StartValue;
             WinPossible = true;
             AddBareValues();
         }

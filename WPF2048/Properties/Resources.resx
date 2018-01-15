@@ -129,10 +129,12 @@ Do you want to start a new game?</value>
     <value>Moves</value>
   </data>
   <data name="ResetBody" xml:space="preserve">
-    <value>Do you want to start a new game?</value>
+    <value>Do you want to start a new game?
+
+Choose the size of the new game:</value>
   </data>
   <data name="ResetHeader" xml:space="preserve">
-    <value>Restart?</value>
+    <value>Restart!</value>
   </data>
   <data name="Score" xml:space="preserve">
     <value>Score</value>

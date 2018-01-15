@@ -9,14 +9,20 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500"
              DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}">
-    <Border BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
+    <Border x:Name="FieldBorder" 
+            BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
             BorderThickness="1"
             Margin="5">
-        <Grid>
-            <Grid x:Name="BackgroundPattern"/>
-            <ItemsControl ItemsSource="{Binding Elements}"
-                          Height="{Binding FieldSize}"
-                          Width="{Binding FieldSize}">
+        <Grid IsSharedSizeScope="True">
+            <Grid x:Name="BackgroundPattern"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Left"/>
+            <ItemsControl x:Name="Field" 
+                          ItemsSource="{Binding Elements, Mode=OneWay}"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Left"
+                          Height="{Binding FieldSize, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                          Width="{Binding FieldSize, Mode=OneWay, NotifyOnSourceUpdated=True}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas IsItemsHost="True"/>

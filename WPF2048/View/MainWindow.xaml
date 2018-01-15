@@ -7,6 +7,7 @@
                        xmlns:view="clr-namespace:WPF2048.View"
                        xmlns:internals="clr-namespace:BlurryControls.Internals;assembly=BlurryControls"
                        xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
+                       xmlns:properties="clr-namespace:WPF2048.Properties"
                        mc:Ignorable="d"
                        Title="WPF2048"
                        BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
@@ -15,12 +16,12 @@
                        SizeToContent="WidthAndHeight">
     <controls:BlurryWindow.AdditionalMenuBarButtons>
         <internals:ButtonCollection>
-            <Button Content="Reset"
+            <Button Content="{x:Static properties:Resources.ResetHeader}"
                     Click="ResetButton_OnClick"/>
         </internals:ButtonCollection>
     </controls:BlurryWindow.AdditionalMenuBarButtons>
     <StackPanel Orientation="Vertical">
-        <view:FieldControl/>
+        <view:FieldControl x:Name="FieldControl"/>
         <view:DashboardControl/>
     </StackPanel>
 </controls:BlurryWindow>
