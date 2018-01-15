@@ -32,7 +32,7 @@ namespace WPF2048.View
 
         private void AnimateSpawn()
         {
-            var da = new DoubleAnimation(0, 1, Values.AnimationDuration);
+            var da = new DoubleAnimation(0, 1, FieldViewModel.AnimationDuration);
             var sb = new Storyboard {Children = {da}};
             Storyboard.SetTargetProperty(da, new PropertyPath("(UserControl.Opacity)"));
             BeginStoryboard(sb);
@@ -46,7 +46,7 @@ namespace WPF2048.View
 
         private void AnimateMove()
         {
-            var da = new ThicknessAnimation(_oldMargin, _instance.Margin, Values.AnimationDuration);
+            var da = new ThicknessAnimation(_oldMargin, _instance.Margin, FieldViewModel.AnimationDuration);
             var sb = new Storyboard { Children = { da } };
             Storyboard.SetTargetProperty(da, new PropertyPath("(UserControl.Margin)"));
             BeginStoryboard(sb);

@@ -20,29 +20,29 @@
         <TextBlock Grid.Column="0"
                    Margin="10"
                    HorizontalAlignment="Right"
-                   Foreground="{x:Static viewModel:Values.AccentColor}"
-                   FontSize="{Binding Source={x:Static viewModel:Values.DefaultFontSize}}"
+                   Foreground="{x:Static viewModel:FieldViewModel.AccentColor}"
+                   FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
                    Text="{Binding Source={x:Static properties:Resources.Moves}, StringFormat='{}{0}:'}"/>
 
         <TextBlock Grid.Column="1" 
                    Margin="10"
                    HorizontalAlignment="Left"
-                   Foreground="{x:Static viewModel:Values.AccentColor}"
-                   FontSize="{Binding Source={x:Static viewModel:Values.DefaultFontSize}}"
+                   Foreground="{x:Static viewModel:FieldViewModel.AccentColor}"
+                   FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
                    Text="{Binding Moves}"/>
 
         <TextBlock Grid.Column="2" 
                    Margin="10"
                    HorizontalAlignment="Right"
-                   Foreground="{x:Static viewModel:Values.AccentColor}"
-                   FontSize="{Binding Source={x:Static viewModel:Values.DefaultFontSize}}"
+                   Foreground="{x:Static viewModel:FieldViewModel.AccentColor}"
+                   FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
                    Text="{Binding Source={x:Static properties:Resources.Score}, StringFormat='{}{0}:'}"/>
 
         <TextBlock Grid.Column="3" 
                    Margin="10"
                    HorizontalAlignment="Left"
-                   Foreground="{x:Static viewModel:Values.AccentColor}"
-                   FontSize="{Binding Source={x:Static viewModel:Values.DefaultFontSize}}"
+                   Foreground="{x:Static viewModel:FieldViewModel.AccentColor}"
+                   FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
                    Text="{Binding Score}"/>
     </Grid>
 </UserControl>

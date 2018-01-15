@@ -56,16 +56,16 @@ namespace WPF2048.ViewModel
         }
 
         public Thickness Margin => new Thickness(Left, Top, 
-            Values.FieldSize - Left - Values.ElementSize, Values.FieldSize - Top - Values.ElementSize);
+            FieldViewModel.FieldSize - Left - FieldViewModel.ElementSize, FieldViewModel.FieldSize - Top - FieldViewModel.ElementSize);
 
         // ReSharper disable once PossibleLossOfFraction
-        public int X => _index / Values.ElementRoot;
+        public int X => _index / Properties.Settings.Default.ElementRoot;
 
-        public int Y => _index % Values.ElementRoot;
+        public int Y => _index % Properties.Settings.Default.ElementRoot;
 
-        public double Top => X * Values.ElementSize;
+        public double Top => X * FieldViewModel.ElementSize;
 
-        public double Left => Y * Values.ElementSize;
+        public double Left => Y * FieldViewModel.ElementSize;
 
         public bool Animate
         {

@@ -9,7 +9,7 @@
                        xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
                        mc:Ignorable="d"
                        Title="WPF2048"
-                       BorderBrush="{x:Static viewModel:Values.AccentColor}"
+                       BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
                        BorderThickness="2"
                        ResizeMode="NoResize"
                        SizeToContent="WidthAndHeight">

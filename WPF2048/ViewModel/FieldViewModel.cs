@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 using BlurryControls.DialogFactory;
 using BlurryControls.Internals;
 using GalaSoft.MvvmLight;
@@ -24,6 +26,11 @@ namespace WPF2048.ViewModel
         public FieldViewModel()
         {
             ResetGame();
+        }
+
+        ~FieldViewModel()
+        {
+            Properties.Settings.Default.Save();
         }
 
         #region Properties
@@ -85,6 +92,37 @@ namespace WPF2048.ViewModel
             }
         }
 
+        public int ElementRoot
+        {
+            get => Properties.Settings.Default.ElementRoot;
+            set
+            {
+                Properties.Settings.Default.ElementRoot = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(() => FieldSize);
+            }
+        }
+
+        #endregion
+
+        #region Static Properties
+
+        private const int DefaultElementRoot = 4;
+        private const int DefaultWinningPower = 12; // defaults to 2^12 = 4096
+
+        public static int DefaultFontSize = 30;
+        
+        public const int StartValue = 2;
+        public const int AddCount = 2;
+        public const double ElementSize = 150;
+
+        public static double FieldSize => Properties.Settings.Default.ElementRoot * ElementSize;
+        public static int WinningPower = DefaultWinningPower + Properties.Settings.Default.ElementRoot - DefaultElementRoot;
+        public static int ElementCount = Properties.Settings.Default.ElementRoot * Properties.Settings.Default.ElementRoot;
+
+        public static Duration AnimationDuration = new Duration(TimeSpan.FromSeconds(0.3));
+        public static SolidColorBrush AccentColor = Brushes.WhiteSmoke;
+
         #endregion
 
         #region Private Methods
@@ -93,17 +131,17 @@ namespace WPF2048.ViewModel
         /// Adds new elements to the field
         /// </summary>
         /// <param name="add"></param>
-        private void AddBareValues(int add = Values.AddCount)
+        private void AddBareValues(int add = AddCount)
         {
             var desiredCount = Elements.Count + add;
             var random = new Random();
 
-            if (desiredCount > Values.ElementCount) CheckDefeatCondition();
+            if (desiredCount > ElementCount) CheckDefeatCondition();
             while (Elements.Count < desiredCount)
             {
-                var rnd = random.Next(0, Values.ElementCount);
+                var rnd = random.Next(0, ElementCount);
                 if (Elements.FirstOrDefault(se => se.Index == rnd) == null)
-                    Elements.Add(new ElementViewModel(rnd, Values.StartValue, true));
+                    Elements.Add(new ElementViewModel(rnd, StartValue, true));
             }
         }
 
@@ -125,9 +163,9 @@ namespace WPF2048.ViewModel
                         movingElement.Blocked = true;
                         collidingElement.Obsolete = true;
                     }
-                    else if (collidingElement.X + 1 < Values.ElementRoot)
+                    else if (collidingElement.X + 1 < ElementRoot)
                     {
-                        movingElement.Index = collidingElement.Index + Values.ElementRoot;
+                        movingElement.Index = collidingElement.Index + ElementRoot;
                     }
                 }
                 else
@@ -144,7 +182,7 @@ namespace WPF2048.ViewModel
         {
             foreach (var movingElement in Elements.OrderBy(e => e.Y).ThenByDescending(e => e.X))
             {
-                if (movingElement.X == Values.ElementRoot - 1) continue;
+                if (movingElement.X == ElementRoot - 1) continue;
                 var collidingElement = Elements.OrderBy(e => e.X).FirstOrDefault(e => e.Y == movingElement.Y && e.X > movingElement.X);
                 if (collidingElement != null)
                 {
@@ -157,12 +195,12 @@ namespace WPF2048.ViewModel
                     }
                     else if (collidingElement.X > 1)
                     {
-                        movingElement.Index = collidingElement.Index - Values.ElementRoot;
+                        movingElement.Index = collidingElement.Index - ElementRoot;
                     }
                 }
                 else
                 {
-                    movingElement.Index = Values.ElementRoot * Values.ElementRoot - Values.ElementRoot + movingElement.Y;
+                    movingElement.Index = ElementRoot * ElementRoot - ElementRoot + movingElement.Y;
                 }
             }
         }
@@ -174,7 +212,7 @@ namespace WPF2048.ViewModel
         {
             foreach (var movingElement in Elements.OrderBy(e => e.X).ThenByDescending(e => e.Y))
             {
-                if (movingElement.Y == Values.ElementRoot - 1) continue;
+                if (movingElement.Y == ElementRoot - 1) continue;
                 var collidingElement = Elements.OrderBy(e => e.Y).FirstOrDefault(e => e.X == movingElement.X && e.Y > movingElement.Y);
                 if (collidingElement != null)
                 {
@@ -192,7 +230,7 @@ namespace WPF2048.ViewModel
                 }
                 else
                 {
-                    movingElement.Index = movingElement.X * Values.ElementRoot + Values.ElementRoot - 1;
+                    movingElement.Index = movingElement.X * ElementRoot + ElementRoot - 1;
                 }
             }
         }
@@ -215,14 +253,14 @@ namespace WPF2048.ViewModel
                         movingElement.Blocked = true;
                         collidingElement.Obsolete = true;
                     }
-                    else if (collidingElement.Y + 1 < Values.ElementRoot)
+                    else if (collidingElement.Y + 1 < ElementRoot)
                     {
                         movingElement.Index = collidingElement.Index + 1;
                     }
                 }
                 else
                 {
-                    movingElement.Index = movingElement.X * Values.ElementRoot;
+                    movingElement.Index = movingElement.X * ElementRoot;
                 }
             }
         }
@@ -251,7 +289,7 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckWinCondition()
         {
-            if (!Elements.Any(e => e.Value >= Math.Pow(Values.ElementRoot, Values.WinningPower))) return;
+            if (!Elements.Any(e => e.Value >= Math.Pow(ElementRoot, FieldViewModel.WinningPower))) return;
 
             WinPossible = true;
             var result = BlurBehindMessageBox.Show(Properties.Resources.WinBody, Properties.Resources.WinHeader,
@@ -264,9 +302,9 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckDefeatCondition()
         {
-            if (Elements.Count < Values.ElementCount) return;
+            if (Elements.Count < FieldViewModel.ElementCount) return;
 
-            if (Elements.Count < Values.ElementCount ||
+            if (Elements.Count < FieldViewModel.ElementCount ||
                 Elements.Select(element => Elements.Where(e =>
                         e.Value == element.Value &&
                         (Math.Abs(e.X - element.X) == 1 && e.Y == element.Y ||
@@ -301,7 +339,7 @@ namespace WPF2048.ViewModel
         {
             Elements.Clear();
             Moves = 0;
-            Score = Values.AddCount * Values.StartValue;
+            Score = FieldViewModel.AddCount * FieldViewModel.StartValue;
             WinPossible = true;
             AddBareValues();
         }

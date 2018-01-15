@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using WPF2048.ViewModel;
 
 namespace WPF2048.Assets
 {
@@ -14,7 +15,7 @@ namespace WPF2048.Assets
 
             try
             {
-                var exp = Math.Log(val, 2);
+                var exp = Math.Log(val, FieldViewModel.StartValue);
                 var b = ColorHelper.GetBackground(exp).Color;
                 return b.R + b.G + b.B > 2 * 127 ? Brushes.Black : Brushes.White;
             }

@@ -22,10 +22,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border BorderBrush="{x:Static viewModel:Values.AccentColor}"
+    <Border BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
             BorderThickness="1"
-            Height="{x:Static viewModel:Values.ElementSize}" 
-            Width="{x:Static viewModel:Values.ElementSize}"
+            Height="{x:Static viewModel:FieldViewModel.ElementSize}" 
+            Width="{x:Static viewModel:FieldViewModel.ElementSize}"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Background="{Binding Value, Converter={StaticResource ValueBackgroundConverter}}">

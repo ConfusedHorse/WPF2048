@@ -78,7 +78,6 @@
     <Compile Include="Assets\ValueForegroundConverter.cs" />
     <Compile Include="Assets\ValueBackgroundConverter.cs" />
     <Compile Include="ViewModel\ElementViewModel.cs" />
-    <Compile Include="ViewModel\Values.cs" />
     <Compile Include="ViewModel\FieldViewModel.cs" />
     <Compile Include="View\DashboardControl.xaml.cs">
       <DependentUpon>DashboardControl.xaml</DependentUpon>

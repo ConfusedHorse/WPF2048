@@ -8,15 +8,21 @@ namespace WPF2048.View
     /// </summary>
     public partial class FieldControl
     {
+        private FieldViewModel _instance;
+
         public FieldControl()
         {
             InitializeComponent();
+            
             Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            for (var e = 0; e < Values.ElementCount; e++)
+            if (!(DataContext is FieldViewModel instance)) return;
+            _instance = instance;
+
+            for (var e = 0; e < FieldViewModel.ElementCount; e++)
             {
                 var spielfeldElement = new ElementViewModel(e);
                 BackgroundPattern.Children.Add(new ElementControl
