@@ -109,12 +109,16 @@ namespace WPF2048.ViewModel
 
         #region Static Properties
 
+        #region Do not touch
+
         private const int DefaultElementRoot = 4;
         private const int DefaultWinningPower = 12; // defaults to 2^12 = 4096
 
+        #endregion
+
         public static int DefaultFontSize = 30;
         
-        public const int StartValue = 2;
+        public const int StartValue = 2; // this is adjustable
         public const int AddCount = 2;
         public const double ElementSize = 150;
 
