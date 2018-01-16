@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using BlurryControls.DialogFactory;
@@ -121,6 +122,7 @@ namespace WPF2048.ViewModel
         public const int StartValue = 2; // this is adjustable
         public const int AddCount = 2;
         public const double ElementSize = 150;
+        public const double AnimationMilliseconds = 250;
 
         public static int[] SizeOptions = {3, 4, 5, 6, 7,};
 
@@ -128,7 +130,7 @@ namespace WPF2048.ViewModel
         public static int WinningPower => DefaultWinningPower + Singleton.CurrentRoot - DefaultElementRoot;
         public static int ElementCount => Singleton.CurrentRoot * Singleton.CurrentRoot;
 
-        public static Duration AnimationDuration = new Duration(TimeSpan.FromSeconds(0.3));
+        public static Duration AnimationDuration = new Duration(TimeSpan.FromMilliseconds(AnimationMilliseconds));
         public static SolidColorBrush AccentColor = Brushes.WhiteSmoke;
 
         #endregion
@@ -384,7 +386,11 @@ namespace WPF2048.ViewModel
             
             if (CheckChanges(previousState))
             {
-                CleanField();
+                Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(AnimationMilliseconds));
+                    Application.Current.Dispatcher.Invoke(() => Singleton.FieldViewModel.CleanField()); 
+                });
                 CleanBlock();
 
                 Moves++;
