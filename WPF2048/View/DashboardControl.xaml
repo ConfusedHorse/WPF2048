@@ -6,6 +6,7 @@
              xmlns:module="clr-namespace:WPF2048.Module"
              xmlns:properties="clr-namespace:WPF2048.Properties"
              xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
+             xmlns:view="clr-namespace:WPF2048.View"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300"
              DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}">
@@ -38,11 +39,11 @@
                    FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
                    Text="{Binding Source={x:Static properties:Resources.Score}, StringFormat='{}{0}:'}"/>
 
-        <TextBlock Grid.Column="3" 
-                   Margin="10"
-                   HorizontalAlignment="Left"
-                   Foreground="{x:Static viewModel:FieldViewModel.AccentColor}"
-                   FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
-                   Text="{Binding Score}"/>
+        <view:FlipControl Grid.Column="3" 
+                          Margin="10"
+                          HorizontalAlignment="Left"
+                          Foreground="{x:Static viewModel:FieldViewModel.AccentColor}"
+                          FontSize="{Binding Source={x:Static viewModel:FieldViewModel.DefaultFontSize}}"
+                          Integer="{Binding Score}"/>
     </Grid>
 </UserControl>

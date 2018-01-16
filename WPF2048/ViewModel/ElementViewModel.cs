@@ -68,16 +68,6 @@ namespace WPF2048.ViewModel
 
         public double Left => Y * FieldViewModel.ElementSize;
 
-        public bool Animate
-        {
-            get => _animate;
-            set
-            {
-                _animate = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public bool Blocked
         {
             get => _blocked;

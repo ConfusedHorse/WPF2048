@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
              xmlns:assets="clr-namespace:WPF2048.Assets"
+             xmlns:view="clr-namespace:WPF2048.View"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" 
              d:DataContext="{d:DesignInstance viewModel:ElementViewModel}">
@@ -29,11 +30,12 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Background="{Binding Value, Converter={StaticResource ValueBackgroundConverter}}">
-        <TextBlock Text="{Binding Value}"
-                   Foreground="{Binding Value, Converter={StaticResource ValueForegroundConverter}}"
-                   FontSize="{Binding FontSize}">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock"
+        <view:FlipControl x:Name="FlipElement" 
+                          Foreground="{Binding Value, Converter={StaticResource ValueForegroundConverter}}"
+                          FontSize="{Binding FontSize}"
+                          Integer="{Binding Value, Mode=OneWay}">
+            <view:FlipControl.Style>
+                <Style TargetType="view:FlipControl"
                        BasedOn="{StaticResource SpielfeldTextBlockStyle}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Value}" Value="0">
@@ -41,7 +43,7 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </TextBlock.Style>
-        </TextBlock>
+            </view:FlipControl.Style>
+        </view:FlipControl>
     </Border>
 </UserControl>

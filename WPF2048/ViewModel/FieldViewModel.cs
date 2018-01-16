@@ -122,7 +122,7 @@ namespace WPF2048.ViewModel
         public const int StartValue = 2; // this is adjustable
         public const int AddCount = 2;
         public const double ElementSize = 150;
-        public const double AnimationMilliseconds = 250;
+        public const int AnimationMilliseconds = 250;
 
         public static int[] SizeOptions = {3, 4, 5, 6, 7,};
 
@@ -395,7 +395,7 @@ namespace WPF2048.ViewModel
 
                 Moves++;
                 AddBareValues(1);
-                Score = Elements.Sum(e => e.Value);
+                Score = Elements.Where(e => !e.Obsolete).Sum(e => e.Value);
 
                 CheckWinCondition();
                 CheckDefeatCondition();
