@@ -143,15 +143,18 @@ namespace WPF2048.ViewModel
         /// <param name="add"></param>
         private void AddBareValues(int add = AddCount)
         {
-            var desiredCount = Elements.Count + add;
-            var random = new Random();
-
-            if (desiredCount > ElementCount) CheckDefeatCondition();
-            while (Elements.Count < desiredCount)
+            lock (this)
             {
-                var rnd = random.Next(0, ElementCount);
-                if (Elements.FirstOrDefault(se => se.Index == rnd) == null)
-                    Elements.Add(new ElementViewModel(rnd, StartValue, true));
+                var desiredCount = Elements.Count + add;
+                var random = new Random();
+
+                if (desiredCount > ElementCount) CheckDefeatCondition();
+                while (Elements.Count < desiredCount)
+                {
+                    var rnd = random.Next(0, ElementCount);
+                    if (Elements.FirstOrDefault(se => se.Index == rnd) == null)
+                        Elements.Add(new ElementViewModel(rnd, StartValue, true));
+                }
             }
         }
 
@@ -280,9 +283,12 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CleanField()
         {
-            var obsoleteElements = Elements.Where(e => e.Obsolete).ToArray();
-            foreach (var obsoleteElement in obsoleteElements)
-                Elements.Remove(obsoleteElement);
+            lock (this)
+            {
+                var obsoleteElements = Elements.Where(e => e.Obsolete).ToArray();
+                foreach (var obsoleteElement in obsoleteElements)
+                    Elements.Remove(obsoleteElement);
+            }
         }
 
         /// <summary>
@@ -312,10 +318,9 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckDefeatCondition()
         {
-            if (Elements.Count < ElementCount) return;
-
-            if (Elements.Count < ElementCount ||
-                Elements.Select(element => Elements.Where(e =>
+            var activeElements = Elements.Where(e => !e.Obsolete).ToArray();
+            if (activeElements.Length < ElementCount ||
+                activeElements.Select(element => activeElements.Where(e =>
                         e.Value == element.Value &&
                         (Math.Abs(e.X - element.X) == 1 && e.Y == element.Y ||
                          Math.Abs(e.Y - element.Y) == 1 && e.X == element.X)).ToArray())
@@ -389,7 +394,7 @@ namespace WPF2048.ViewModel
                 Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(AnimationMilliseconds));
-                    Application.Current.Dispatcher.Invoke(() => Singleton.FieldViewModel.CleanField()); 
+                    Application.Current.Dispatcher.Invoke(() => Singleton.FieldViewModel.CleanField());
                 });
                 CleanBlock();
 
@@ -399,9 +404,9 @@ namespace WPF2048.ViewModel
 
                 CheckWinCondition();
                 CheckDefeatCondition();
-            }
 
-            IsBusy = false;
+                IsBusy = false;
+            }
         }
 
         #endregion

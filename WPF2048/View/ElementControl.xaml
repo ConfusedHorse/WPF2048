@@ -33,7 +33,7 @@
         <view:FlipControl x:Name="FlipElement" 
                           Foreground="{Binding Value, Converter={StaticResource ValueForegroundConverter}}"
                           FontSize="{Binding FontSize}"
-                          Integer="{Binding Value, Mode=OneWay}">
+                          Integer="{Binding Value, Mode=OneWay, Delay={x:Static viewModel:FieldViewModel.AnimationMilliseconds}}">
             <view:FlipControl.Style>
                 <Style TargetType="view:FlipControl"
                        BasedOn="{StaticResource SpielfeldTextBlockStyle}">
