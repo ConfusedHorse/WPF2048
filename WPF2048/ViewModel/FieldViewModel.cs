@@ -293,7 +293,7 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckWinCondition()
         {
-            if (!Elements.Any(e => e.Value >= Math.Pow(ElementRoot, WinningPower))) return;
+            if (!Elements.Any(e => e.Value >= Math.Pow(StartValue, WinningPower))) return;
 
             WinPossible = true;
             var result = BlurBehindMessageBox.Show(Properties.Resources.WinBody, Properties.Resources.WinHeader,
