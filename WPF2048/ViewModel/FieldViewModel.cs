@@ -404,9 +404,9 @@ namespace WPF2048.ViewModel
 
                 CheckWinCondition();
                 CheckDefeatCondition();
-
-                IsBusy = false;
             }
+
+            IsBusy = false;
         }
 
         #endregion
