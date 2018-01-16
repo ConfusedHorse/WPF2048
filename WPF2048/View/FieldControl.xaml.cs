@@ -38,8 +38,8 @@ namespace WPF2048.View
         {
             BackgroundPattern.Width = FieldViewModel.FieldSize;
             BackgroundPattern.Height = FieldViewModel.FieldSize;
-            FieldBorder.Width = FieldViewModel.FieldSize;
-            FieldBorder.Height = FieldViewModel.FieldSize;
+            FieldBorder.Width = FieldViewModel.FieldSize + FieldBorder.BorderThickness.Left * 2;
+            FieldBorder.Height = FieldViewModel.FieldSize + FieldBorder.BorderThickness.Left * 2;
         }
     }
 }
