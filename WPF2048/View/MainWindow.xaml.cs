@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BlurryControls.DialogFactory;
@@ -53,7 +54,10 @@ namespace WPF2048.View
                 var optionButton = new Button
                 {
                     Content = sizeOption,
-                    Width = 50d
+                    Width = 50d,
+                    ToolTip = string.Format(Properties.Resources.WinTileToolTip,
+                        Math.Pow(FieldViewModel.StartValue,
+                            FieldViewModel.WinningPowers[sizeOption - FieldViewModel.SizeOptions[0]]))
                 };
                 optionButton.Click += OptionButtonOnClick;
                 customButtonCollection.Add(optionButton);

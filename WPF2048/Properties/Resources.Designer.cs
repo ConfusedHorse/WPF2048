@@ -81,6 +81,15 @@ namespace WPF2048.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Highscore.
+        /// </summary>
+        public static string HighScore {
+            get {
+                return ResourceManager.GetString("HighScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moves.
         /// </summary>
         public static string Moves {
@@ -135,6 +144,24 @@ namespace WPF2048.Properties {
         public static string WinHeader {
             get {
                 return ResourceManager.GetString("WinHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Win.
+        /// </summary>
+        public static string WinTile {
+            get {
+                return ResourceManager.GetString("WinTile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a tile with a value of {0} to win the game!.
+        /// </summary>
+        public static string WinTileToolTip {
+            get {
+                return ResourceManager.GetString("WinTileToolTip", resourceCulture);
             }
         }
     }

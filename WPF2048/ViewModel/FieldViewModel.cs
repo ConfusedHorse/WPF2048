@@ -29,6 +29,7 @@ namespace WPF2048.ViewModel
         {
             SystemParameters.StaticPropertyChanged += AdjustElementColors;
             Singleton.CurrentRoot = Properties.Settings.Default.ElementRoot;
+            Singleton.CurrentHighScore = Properties.Settings.Default.HighScore;
             ResetGame();
         }
 
@@ -110,6 +111,18 @@ namespace WPF2048.ViewModel
             }
         }
 
+        public int HighScore
+        {
+            get => Singleton.CurrentHighScore;
+            set
+            {
+                Singleton.CurrentHighScore = value;
+                Properties.Settings.Default.HighScore = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(() => HighScore);
+            }
+        }
+
         #endregion
 
         #region Static Properties
@@ -126,6 +139,7 @@ namespace WPF2048.ViewModel
 
         public static double FieldSize => Singleton.CurrentRoot * ElementSize;
         public static int WinningPower => WinningPowers[Singleton.CurrentRoot - SizeOptions[0]];
+        public static int WinningCondition => (int) Math.Pow(StartValue, WinningPower);
         public static int ElementCount => Singleton.CurrentRoot * Singleton.CurrentRoot;
 
         public static Duration AnimationDuration = new Duration(TimeSpan.FromMilliseconds(AnimationMilliseconds));
@@ -287,9 +301,10 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckWinCondition()
         {
-            if (!ActiveElements.Any(e => e.Value >= Math.Pow(StartValue, WinningPower))) return;
+            if (!ActiveElements.Any(e => e.Value >= WinningCondition)) return;
 
             WinPossible = true;
+            AdjustHighScore();
             var result = BlurBehindMessageBox.Show(Properties.Resources.WinBody, Properties.Resources.WinHeader,
                 BlurryDialogButton.YesNoCancel);
             if (result == BlurryDialogResult.Yes) Singleton.FieldViewModel.ResetGame();
@@ -308,6 +323,7 @@ namespace WPF2048.ViewModel
                     .Any(possibleCollisions => possibleCollisions.Any())) return;
 
             WinPossible = false;
+            AdjustHighScore();
             var result = BlurBehindMessageBox.Show(Properties.Resources.DefeatBody, Properties.Resources.DefeatHeader,
                 BlurryDialogButton.YesNoCancel);
             if (result == BlurryDialogResult.Yes) Singleton.FieldViewModel.ResetGame();
@@ -324,6 +340,15 @@ namespace WPF2048.ViewModel
                    !previousState.All(previousElement => ActiveElements.Any(previousElement.Equals));
         }
 
+        /// <summary>
+        /// Adjusts the current highscore
+        /// </summary>
+        private void AdjustHighScore()
+        {
+            if (Score > Properties.Settings.Default.HighScore)
+                HighScore = Score;
+        }
+
         #endregion
 
         #region Public Methods
@@ -333,6 +358,8 @@ namespace WPF2048.ViewModel
         /// </summary>
         public void ResetGame()
         {
+            AdjustHighScore();
+
             Elements.Clear();
             Moves = 0;
             Score = AddCount * StartValue;

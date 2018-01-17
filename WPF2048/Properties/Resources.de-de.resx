@@ -125,6 +125,9 @@ Ein neues Spiel starten?</value>
   <data name="DefeatHeader" xml:space="preserve">
     <value>Verloren!</value>
   </data>
+  <data name="HighScore" xml:space="preserve">
+    <value>Rekord</value>
+  </data>
   <data name="Moves" xml:space="preserve">
     <value>Züge</value>
   </data>
@@ -146,5 +149,11 @@ Ein neues Spiel starten?</value>
   </data>
   <data name="WinHeader" xml:space="preserve">
     <value>Gewonnen!</value>
+  </data>
+  <data name="WinTile" xml:space="preserve">
+    <value>Sieg</value>
+  </data>
+  <data name="WinTileToolTip" xml:space="preserve">
+    <value>Ein Feld mit dem Wert {0} erzeugen um zu gewinnen!</value>
   </data>
 </root>

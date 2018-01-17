@@ -125,6 +125,9 @@ Do you want to start a new game?</value>
   <data name="DefeatHeader" xml:space="preserve">
     <value>Defeat!</value>
   </data>
+  <data name="HighScore" xml:space="preserve">
+    <value>Highscore</value>
+  </data>
   <data name="Moves" xml:space="preserve">
     <value>Moves</value>
   </data>
@@ -146,5 +149,11 @@ Do you want to start a new game?</value>
   </data>
   <data name="WinHeader" xml:space="preserve">
     <value>Success!</value>
+  </data>
+  <data name="WinTile" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="WinTileToolTip" xml:space="preserve">
+    <value>Create a tile with a value of {0} to win the game!</value>
   </data>
 </root>

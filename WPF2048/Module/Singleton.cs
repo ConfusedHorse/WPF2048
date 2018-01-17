@@ -12,9 +12,10 @@ namespace WPF2048.Module
 
         private Singleton() { }
 
-        #region GlobalRoot
+        #region Properties
 
-        public static int CurrentRoot { get; set; }
+        public static int CurrentRoot { get; set; } = 4;
+        public static int CurrentHighScore { get; set; } = 0;
 
         #endregion
 
