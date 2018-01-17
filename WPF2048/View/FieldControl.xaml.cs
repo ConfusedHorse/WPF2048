@@ -4,7 +4,7 @@ using WPF2048.ViewModel;
 namespace WPF2048.View
 {
     /// <summary>
-    /// Interaktionslogik für FieldControl.xaml
+    ///     Interaction logic FieldControl.xaml
     /// </summary>
     public partial class FieldControl
     {

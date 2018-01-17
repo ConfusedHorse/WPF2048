@@ -7,7 +7,7 @@ using WPF2048.ViewModel;
 namespace WPF2048.View
 {
     /// <summary>
-    /// Interaktionslogik für ElementControl.xaml
+    ///     Interaction logic for ElementControl.xaml
     /// </summary>
     public partial class ElementControl
     {

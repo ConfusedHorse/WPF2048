@@ -6,7 +6,7 @@ using WPF2048.ViewModel;
 namespace WPF2048.View
 {
     /// <summary>
-    /// Interaction logic for FlipControl.xaml
+    ///     Interaction logic for FlipControl.xaml
     /// </summary>
     public partial class FlipControl
     {

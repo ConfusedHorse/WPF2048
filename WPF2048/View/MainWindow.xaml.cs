@@ -10,7 +10,7 @@ using WPF2048.ViewModel;
 namespace WPF2048.View
 {
     /// <summary>
-    ///     Interaktionslogik für MainWindow.xaml
+    ///     Interaction logic MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {

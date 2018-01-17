@@ -9,7 +9,7 @@
                        xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
                        xmlns:properties="clr-namespace:WPF2048.Properties"
                        mc:Ignorable="d"
-                       Title="WPF2048"
+                       Title="WPF2048" Icon="../Resources/WPF2048.ico"
                        BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
                        BorderThickness="2"
                        ResizeMode="NoResize"
