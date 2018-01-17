@@ -41,6 +41,8 @@ namespace WPF2048.ViewModel
         /// Represents all elements in the field
         /// </summary>
         public ObservableCollection<ElementViewModel> Elements { get; } = new ObservableCollection<ElementViewModel>();
+        private ElementViewModel[] ObsoleteElements => Elements.Where(e => e.Obsolete).ToArray();
+        private ElementViewModel[] ActiveElements => Elements.Where(e => !e.Obsolete).ToArray();
 
         /// <summary>
         /// There are possibles moves to be made
@@ -143,19 +145,18 @@ namespace WPF2048.ViewModel
         /// <param name="add"></param>
         private void AddBareValues(int add = AddCount)
         {
-            lock (this)
-            {
-                var desiredCount = Elements.Count + add;
-                var random = new Random();
+            var desiredCount = ActiveElements.Length + add;
+            var random = new Random();
 
-                if (desiredCount > ElementCount) CheckDefeatCondition();
-                while (Elements.Count < desiredCount)
+            if (desiredCount > ElementCount)
+                CheckDefeatCondition();
+            else
+                while (ActiveElements.Length < desiredCount)
                 {
                     var rnd = random.Next(0, ElementCount);
-                    if (Elements.FirstOrDefault(se => se.Index == rnd) == null)
-                        Elements.Add(new ElementViewModel(rnd, StartValue, true));
+                    if (ActiveElements.FirstOrDefault(se => se.Index == rnd) == null)
+                        Elements.Add(new ElementViewModel(rnd, StartValue));
                 }
-            }
         }
 
         /// <summary>
@@ -285,8 +286,7 @@ namespace WPF2048.ViewModel
         {
             lock (this)
             {
-                var obsoleteElements = Elements.Where(e => e.Obsolete).ToArray();
-                foreach (var obsoleteElement in obsoleteElements)
+                foreach (var obsoleteElement in ObsoleteElements)
                     Elements.Remove(obsoleteElement);
             }
         }
@@ -305,7 +305,7 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckWinCondition()
         {
-            if (!Elements.Any(e => e.Value >= Math.Pow(StartValue, WinningPower))) return;
+            if (!ActiveElements.Any(e => e.Value >= Math.Pow(StartValue, WinningPower))) return;
 
             WinPossible = true;
             var result = BlurBehindMessageBox.Show(Properties.Resources.WinBody, Properties.Resources.WinHeader,
@@ -318,9 +318,8 @@ namespace WPF2048.ViewModel
         /// </summary>
         private void CheckDefeatCondition()
         {
-            var activeElements = Elements.Where(e => !e.Obsolete).ToArray();
-            if (activeElements.Length < ElementCount ||
-                activeElements.Select(element => activeElements.Where(e =>
+            if (ActiveElements.Length < ElementCount ||
+                ActiveElements.Select(element => ActiveElements.Where(e =>
                         e.Value == element.Value &&
                         (Math.Abs(e.X - element.X) == 1 && e.Y == element.Y ||
                          Math.Abs(e.Y - element.Y) == 1 && e.X == element.X)).ToArray())
@@ -339,8 +338,8 @@ namespace WPF2048.ViewModel
         /// <returns></returns>
         private bool CheckChanges(IReadOnlyCollection<ElementViewModel> previousState)
         {
-            return Elements.Count != previousState.Count ||
-                   !previousState.All(previousElement => Elements.Any(previousElement.Equals));
+            return ActiveElements.Length != previousState.Count ||
+                   !previousState.All(previousElement => ActiveElements.Any(previousElement.Equals));
         }
 
         #endregion

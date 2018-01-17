@@ -8,16 +8,14 @@ namespace WPF2048.ViewModel
     {
         private int _index;
         private int _value;
-        private bool _animate;
         private int _fontSize = 30; // TODO adjust according to value
         private bool _blocked;
         private bool _obsolete;
 
-        public ElementViewModel(int initial = 0, int value = 0, bool animate = false)
+        public ElementViewModel(int initial = 0, int value = 0)
         {
             _index = initial;
             _value = value;
-            _animate = animate;
         }
 
         #region Properties

@@ -29,7 +29,8 @@ namespace WPF2048.View
                 var spielfeldElement = new ElementViewModel(e);
                 BackgroundPattern.Children.Add(new ElementControl
                 {
-                    Margin = spielfeldElement.Margin
+                    Margin = spielfeldElement.Margin,
+                    DataContext = null
                 });
             }
         }
