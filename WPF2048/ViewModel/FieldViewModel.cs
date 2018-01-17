@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +27,7 @@ namespace WPF2048.ViewModel
 
         public FieldViewModel()
         {
+            SystemParameters.StaticPropertyChanged += AdjustElementColors;
             Singleton.CurrentRoot = Properties.Settings.Default.ElementRoot;
             ResetGame();
         }
@@ -138,6 +140,18 @@ namespace WPF2048.ViewModel
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Adjusts system accent color change to elements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void AdjustElementColors(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName != "WindowGlassColor") return;
+            foreach (var element in Elements)
+                element.Value = element.Value;
+        }
 
         /// <summary>
         /// Adds new elements to the field
