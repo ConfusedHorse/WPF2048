@@ -8,7 +8,8 @@
              xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500"
-             DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}">
+             DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}"
+             Focusable="False">
     <Border x:Name="FieldBorder" 
             BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
             BorderThickness="1"

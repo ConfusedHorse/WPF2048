@@ -114,13 +114,6 @@ namespace WPF2048.ViewModel
 
         #region Static Properties
 
-        #region Do not touch
-
-        private const int DefaultElementRoot = 4;
-        private const int DefaultWinningPower = 12; // defaults to 2^12 = 4096
-
-        #endregion
-
         public static int DefaultFontSize = 30;
         
         public const int StartValue = 2; // this is adjustable
@@ -128,10 +121,11 @@ namespace WPF2048.ViewModel
         public const double ElementSize = 150;
         public const int AnimationMilliseconds = 250;
 
-        public static int[] SizeOptions = {3, 4, 5, 6, 7,};
+        public static int[] SizeOptions = {3, 4, 5};
+        public static int[] WinningPowers = {8, 11, 16};
 
         public static double FieldSize => Singleton.CurrentRoot * ElementSize;
-        public static int WinningPower => DefaultWinningPower + Singleton.CurrentRoot - DefaultElementRoot;
+        public static int WinningPower => WinningPowers[Singleton.CurrentRoot - SizeOptions[0]];
         public static int ElementCount => Singleton.CurrentRoot * Singleton.CurrentRoot;
 
         public static Duration AnimationDuration = new Duration(TimeSpan.FromMilliseconds(AnimationMilliseconds));
@@ -185,21 +179,11 @@ namespace WPF2048.ViewModel
                 if (collidingElement != null)
                 {
                     if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
-                    {
-                        movingElement.Index = collidingElement.Index;
-                        movingElement.Value *= 2;
-                        movingElement.Blocked = true;
-                        collidingElement.Obsolete = true;
-                    }
+                        MergeElements(movingElement, collidingElement);
                     else if (collidingElement.X + 1 < ElementRoot)
-                    {
                         movingElement.Index = collidingElement.Index + ElementRoot;
-                    }
                 }
-                else
-                {
-                    movingElement.Index = movingElement.Y;
-                }
+                else movingElement.Index = movingElement.Y;
             }
         }
 
@@ -215,21 +199,11 @@ namespace WPF2048.ViewModel
                 if (collidingElement != null)
                 {
                     if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
-                    {
-                        movingElement.Index = collidingElement.Index;
-                        movingElement.Value *= 2;
-                        movingElement.Blocked = true;
-                        collidingElement.Obsolete = true;
-                    }
+                        MergeElements(movingElement, collidingElement);
                     else if (collidingElement.X > 1)
-                    {
                         movingElement.Index = collidingElement.Index - ElementRoot;
-                    }
                 }
-                else
-                {
-                    movingElement.Index = ElementRoot * ElementRoot - ElementRoot + movingElement.Y;
-                }
+                else movingElement.Index = ElementRoot * ElementRoot - ElementRoot + movingElement.Y;
             }
         }
 
@@ -245,21 +219,11 @@ namespace WPF2048.ViewModel
                 if (collidingElement != null)
                 {
                     if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
-                    {
-                        movingElement.Index = collidingElement.Index;
-                        movingElement.Value *= 2;
-                        movingElement.Blocked = true;
-                        collidingElement.Obsolete = true;
-                    }
+                        MergeElements(movingElement, collidingElement);
                     else if (collidingElement.Y > 1)
-                    {
-                        movingElement.Index = collidingElement.Index -1;
-                    }
+                        movingElement.Index = collidingElement.Index - 1;
                 }
-                else
-                {
-                    movingElement.Index = movingElement.X * ElementRoot + ElementRoot - 1;
-                }
+                else movingElement.Index = movingElement.X * ElementRoot + ElementRoot - 1;
             }
         }
 
@@ -275,22 +239,26 @@ namespace WPF2048.ViewModel
                 if (collidingElement != null)
                 {
                     if (!collidingElement.Blocked && !collidingElement.Obsolete && collidingElement.Value == movingElement.Value)
-                    {
-                        movingElement.Index = collidingElement.Index;
-                        movingElement.Value *= 2;
-                        movingElement.Blocked = true;
-                        collidingElement.Obsolete = true;
-                    }
+                        MergeElements(movingElement, collidingElement);
                     else if (collidingElement.Y + 1 < ElementRoot)
-                    {
                         movingElement.Index = collidingElement.Index + 1;
-                    }
                 }
-                else
-                {
-                    movingElement.Index = movingElement.X * ElementRoot;
-                }
+                else movingElement.Index = movingElement.X * ElementRoot;
             }
+        }
+
+        /// <summary>
+        /// Merges two tiles and adjusts the score accordingly
+        /// </summary>
+        /// <param name="movingElement"></param>
+        /// <param name="collidingElement"></param>
+        private void MergeElements(ElementViewModel movingElement, ElementViewModel collidingElement)
+        {
+            movingElement.Index = collidingElement.Index;
+            movingElement.Value *= 2;
+            movingElement.Blocked = true;
+            collidingElement.Obsolete = true;
+            Score += movingElement.Value;
         }
 
         /// <summary>
@@ -386,18 +354,10 @@ namespace WPF2048.ViewModel
 
             switch (direction)
             {
-                case Direction.Up:
-                    PerformMoveUp();
-                    break;
-                case Direction.Down:
-                    PerformMoveDown();
-                    break;
-                case Direction.Right:
-                    PerformMoveRight();
-                    break;
-                case Direction.Left:
-                    PerformMoveLeft();
-                    break;
+                case Direction.Up:    PerformMoveUp(); break;
+                case Direction.Down:  PerformMoveDown(); break;
+                case Direction.Right: PerformMoveRight(); break;
+                case Direction.Left:  PerformMoveLeft(); break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
@@ -413,7 +373,6 @@ namespace WPF2048.ViewModel
 
                 Moves++;
                 AddBareValues(1);
-                Score = Elements.Where(e => !e.Obsolete).Sum(e => e.Value);
 
                 CheckWinCondition();
                 CheckDefeatCondition();
