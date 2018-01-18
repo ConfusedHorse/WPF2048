@@ -80,7 +80,9 @@ namespace WPF2048.View
             {
                 _currentAnimationValue += 1.0 / AnimationSteps;
                 _currentInteger = (int)Logarithmic(_currentAnimationValue, _oldInteger, _newInteger);
-                if (_currentInteger >= _newInteger || _currentAnimationValue >= AnimationSteps) _animationTimer.Stop();
+                if (_newInteger <= _oldInteger && _currentInteger <= _newInteger ||
+                    _newInteger >= _oldInteger && _currentInteger >= _newInteger ||
+                    _currentAnimationValue >= AnimationSteps) _animationTimer.Stop();
                 Text = _currentInteger.ToString();
             }
             else

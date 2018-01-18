@@ -362,7 +362,7 @@ namespace WPF2048.ViewModel
 
             Elements.Clear();
             Moves = 0;
-            Score = AddCount * StartValue;
+            Score = 0;
             WinPossible = true;
             AddBareValues();
         }

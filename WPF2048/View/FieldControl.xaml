@@ -8,8 +8,7 @@
              xmlns:viewModel="clr-namespace:WPF2048.ViewModel"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500"
-             DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}"
-             Focusable="False">
+             DataContext="{Binding Source={x:Static module:Singleton.FieldViewModel}}">
     <Border x:Name="FieldBorder" 
             BorderBrush="{x:Static viewModel:FieldViewModel.AccentColor}"
             BorderThickness="1"
@@ -22,8 +21,8 @@
                           ItemsSource="{Binding Elements, Mode=OneWay}"
                           VerticalAlignment="Top"
                           HorizontalAlignment="Left"
-                          Height="{Binding FieldSize, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                          Width="{Binding FieldSize, Mode=OneWay, NotifyOnSourceUpdated=True}">
+                          Height="{Binding Source={x:Static viewModel:FieldViewModel.FieldSize}}"
+                          Width="{Binding Source={x:Static viewModel:FieldViewModel.FieldSize}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas IsItemsHost="True"/>
@@ -31,7 +30,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type viewModel:ElementViewModel}">
-                        <view:ElementControl DataContext="{Binding}"/>
+                        <view:ElementControl DataContext="{Binding}" Focusable="False"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

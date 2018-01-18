@@ -21,7 +21,7 @@
         </internals:ButtonCollection>
     </controls:BlurryWindow.AdditionalMenuBarButtons>
     <StackPanel Orientation="Vertical">
-        <view:FieldControl x:Name="FieldControl"/>
+        <view:FieldControl x:Name="FieldControl" Focusable="False"/>
         <view:DashboardControl/>
     </StackPanel>
 </controls:BlurryWindow>
